@@ -15,6 +15,7 @@ app.use(cors({
     'http://localhost:3001',
     'https://fj-backend-mu.vercel.app',
     'https://fj-frontend.vercel.app',
+    'https://fj-frontend-ebon.vercel.app',
     'https://fjservices.co.za',
     'https://www.fjservices.co.za'
   ],
