@@ -9,7 +9,9 @@ module.exports = {
     }
 
     const { data, error } = await supabaseModel.createQuote({
-      name, phone, email, service_required, location, message, images, status: 'Pending'
+      name, phone, email, service_required, location, message,
+      images: images || [],
+      status: 'Pending'
     });
 
     if (error) return res.status(500).json({ status: 'error', message: error.message });
