@@ -10,6 +10,9 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 
 router.post('/admin/upload', auth, upload.single('file'), uploadController.uploadFile);
 
 // Public media proxy — serves files without exposing Supabase URL
-router.get('/media/:bucket/*', uploadController.proxyMedia);
+router.get('/media/:bucket', uploadController.proxyMedia);
+router.get('/media/:bucket/:p1', uploadController.proxyMedia);
+router.get('/media/:bucket/:p1/:p2', uploadController.proxyMedia);
+router.get('/media/:bucket/:p1/:p2/:p3', uploadController.proxyMedia);
 
 module.exports = router;

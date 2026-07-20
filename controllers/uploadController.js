@@ -30,8 +30,8 @@ module.exports = {
 
   async proxyMedia(req, res) {
     try {
-      const { bucket } = req.params;
-      const filePath = req.params[0]; // wildcard after bucket
+      const { bucket, p1, p2, p3 } = req.params;
+      const filePath = [p1, p2, p3].filter(Boolean).join('/');
       if (!ALLOWED_BUCKETS.includes(bucket))
         return res.status(400).json({ status: 'error', message: 'Invalid bucket' });
 

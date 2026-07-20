@@ -32,8 +32,6 @@ app.use(cors({
   credentials: true
 }));
 
-// Ensure preflight OPTIONS requests are handled before auth middleware
-app.options('*', cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
