@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const uploadRoutes = require('./routes/uploadRoutes');
 const authRoutes = require('./routes/authRoutes');
 const quoteRoutes = require('./routes/quoteRoutes');
 const invoiceRoutes = require('./routes/invoiceRoutes');
@@ -27,6 +28,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/api', uploadRoutes);
 app.use('/api', authRoutes);
 app.use('/api', quoteRoutes);
 app.use('/api/admin', invoiceRoutes);
