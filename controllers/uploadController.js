@@ -1,6 +1,6 @@
 const { supabase } = require('../models/supabaseModel');
 
-const ALLOWED_BUCKETS = ['fj-images', 'fj-gallery'];
+const ALLOWED_BUCKETS = ['fj-gallery'];
 
 module.exports = {
   async uploadFile(req, res) {
