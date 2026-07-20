@@ -13,6 +13,7 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'http://localhost:3001',
+    'https://fj-backend-mu.vercel.app',
     'https://fj-frontend.vercel.app',
     'https://fjservices.co.za',
     'https://www.fjservices.co.za'
