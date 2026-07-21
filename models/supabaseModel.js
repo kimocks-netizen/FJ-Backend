@@ -30,6 +30,8 @@ module.exports = {
     const { error } = await supabase.from('quotes').delete().eq('id', id);
     return { error };
   },
+
+  async updateQuoteStatus(id, status) {
     const { data, error } = await supabase.from('quotes').update({ status }).eq('id', id).select('*');
     return { data, error };
   },
