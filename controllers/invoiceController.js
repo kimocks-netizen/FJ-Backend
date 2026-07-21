@@ -44,9 +44,12 @@ module.exports = {
 
   async getAllInvoices(req, res) {
     try {
-      const { data, error } = await supabaseModel.getInvoices();
+      const { page = 1, limit = 20, type, status, search } = req.query;
+      const { data, error, count } = await supabaseModel.getInvoices({
+        page: parseInt(page), limit: parseInt(limit), type, status, search
+      });
       if (error) return res.status(500).json({ status: 'error', message: error.message });
-      res.json({ status: 'success', data });
+      res.json({ status: 'success', data, total: count, page: parseInt(page), limit: parseInt(limit) });
     } catch (err) {
       res.status(500).json({ status: 'error', message: 'Internal server error' });
     }

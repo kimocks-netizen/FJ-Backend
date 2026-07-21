@@ -13,12 +13,23 @@ module.exports = {
     return { data: result, error };
   },
 
-  async getQuotes() {
-    const { data, error } = await supabase.from('quotes').select('*').order('created_at', { ascending: false });
-    return { data, error };
+  async getQuotes({ page = 1, limit = 20, status, search } = {}) {
+    let query = supabase
+      .from('quotes')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false });
+    if (status && status !== 'All') query = query.eq('status', status);
+    if (search) query = query.or(`name.ilike.%${search}%,phone.ilike.%${search}%`);
+    const from = (page - 1) * limit;
+    query = query.range(from, from + limit - 1);
+    const { data, error, count } = await query;
+    return { data, error, count };
   },
 
-  async updateQuoteStatus(id, status) {
+  async deleteQuote(id) {
+    const { error } = await supabase.from('quotes').delete().eq('id', id);
+    return { error };
+  },
     const { data, error } = await supabase.from('quotes').update({ status }).eq('id', id).select('*');
     return { data, error };
   },
@@ -60,12 +71,18 @@ module.exports = {
     return { data: invoice, error: null };
   },
 
-  async getInvoices() {
-    const { data, error } = await supabase
+  async getInvoices({ page = 1, limit = 20, type, status, search } = {}) {
+    let query = supabase
       .from('invoices')
-      .select('*, invoice_items(id, service_type, description, amount)')
+      .select('*, invoice_items(id, service_type, description, amount)', { count: 'exact' })
       .order('created_at', { ascending: false });
-    return { data, error };
+    if (type) query = query.eq('document_type', type);
+    if (status) query = query.eq('status', status);
+    if (search) query = query.or(`customer_name.ilike.%${search}%,invoice_number.ilike.%${search}%`);
+    const from = (page - 1) * limit;
+    query = query.range(from, from + limit - 1);
+    const { data, error, count } = await query;
+    return { data, error, count };
   },
 
   async getInvoiceById(id) {

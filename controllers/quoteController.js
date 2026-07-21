@@ -19,9 +19,19 @@ module.exports = {
   },
 
   async getAllQuotes(req, res) {
-    const { data, error } = await supabaseModel.getQuotes();
+    const { page = 1, limit = 20, status, search } = req.query;
+    const { data, error, count } = await supabaseModel.getQuotes({
+      page: parseInt(page), limit: parseInt(limit), status, search
+    });
     if (error) return res.status(500).json({ status: 'error', message: error.message });
-    res.json({ status: 'success', data });
+    res.json({ status: 'success', data, total: count, page: parseInt(page), limit: parseInt(limit) });
+  },
+
+  async deleteQuote(req, res) {
+    const { id } = req.params;
+    const { error } = await supabaseModel.deleteQuote(id);
+    if (error) return res.status(500).json({ status: 'error', message: error.message });
+    res.json({ status: 'success', message: 'Quote deleted!' });
   },
 
   async updateQuoteStatus(req, res) {
